@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Blog List</title>
+    <div class="container">
+
+        <h1 class="text-center">Latest Blog Posts </h1>
+
+            {% for new in blog %}
+                 <li class="blogposts text-center">
+                <h4> <a href="../blogpost/{{ new.id }}">{{ new.blog_title }}</a> </h4>
+               <div class=" toppost">
+                <i class="fa fa-user"></i> By: {{ new.blog_publisher }}  ,
+                <i class=" fa fa-clock-o"> {{ new.time_added|timesince}} ago</i>
+               </div>
+                 </li>
+            {% endfor %}
+
+    </div>
+{% endblock content %}
+}

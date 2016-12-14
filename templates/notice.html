@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+    <title>Notice</title>
+        {% csrf_token %}
+        <h1 class=" text-center">Notices </h1>
+        <table class="table">
+    <thead>
+      <tr>
+        <th>Notice</th>
+        <th>Time</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for msg in notice %}
+      <tr>
+        <td>{{ msg.notice_text }}</td>
+        <td>{{ msg.time_added|timesince }} ago</td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+    </div>
+{% endblock content %}

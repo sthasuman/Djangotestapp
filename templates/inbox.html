@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+    <title>Inbox</title>
+
+        {% csrf_token %}
+        <h1 class=" text-center">Inbox of {{ user.username }}</h1>
+        <table class="table">
+    <thead>
+      <tr>
+        <th>Message</th>
+        <th>Sender</th>
+        <th>Time</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for msg in inbox %}
+      <tr>
+        <td>{{ msg.message }}</td>
+        <td>{{ msg.sender }}</td>
+        <td>{{ msg.time_sent|timesince }} ago</td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+    </div>
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+    <title>Nofication</title>
+
+        {% csrf_token %}
+        <h1 class=" text-center">Notifications of {{ user.username }}</h1>
+
+    {% for new in notify %}
+    <li>
+    <b> {{ new.like_done }}</b> has liked <a href="../blogpost/{{ new.like_blog.id }}"> {{ new.like_blog }}</a> ,{{ new.time_liked|timesince }}ago
+    </li>
+    {% endfor %}
+
+    </div>
+{% endblock content %}

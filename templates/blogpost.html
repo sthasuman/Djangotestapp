@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Blog</title>
+    <div class="container">
+
+
+                <h1> {{ blogpost.blog_title }} </h1>
+
+                <form id="like_form" method="post" action=" ">
+                {% csrf_token %}
+                <input
+                    {% if liked %}
+                        value="Unlike" name="unlike"
+                    {% else %}
+                        value="Like" name="like"
+                    {% endif %}
+                        type="submit" id="likebtn" class="btn-btn-info" style=" width:60px"/>
+                </form>
+
+                <div id="like_count">
+                    {% if not like %}
+                        <b>NO</b>Like
+                    {% else %}
+                        <b>{{ like.like_count }}</b> Likes
+                    {% endif %}
+                </div>
+
+               <div class=" toppost">
+                <i class="fa fa-user"></i>By: {{ blogpost.blog_publisher }}  ,
+                <i class=" fa fa-clock-o"> {{ blogpost.time_added|timesince}} ago</i>
+               </div>
+                <p class="blogppost"> {{ blogpost.blog_text }} </p>
+                 </li>
+
+
+
+    <script>
+        $('#like_form').on('submit', function(event){
+                   event.preventDefault();
+                    console.log("form submitted!")  // sanity check
+                    create_post();
+                });
+        function create_post() {
+                    console.log("create post is working!") // sanity check
+                   // console.log($('#messageText').val())
+                    $.ajax({
+                        url : window.location.href,
+                        type : "POST", // http method
+                        data : { 'like' : $('#likebtn').val(),
+                            'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+                        },// data sent with the post request
+
+                        // handle a successful response
+                        success : function(json) {
+
+                            $('#likebtn').val(''); // remove the value from the input
+                            console.log(json); // log the returned json to the console
+                            console.log("success"); // another sanity check
+                            console.log(json.message);
+                            $("#like_count").html("<b>"+json.like+"</b> Likes");
+                            console.log(json.liked)
+                            if(json.liked == true){
+                                $("#likebtn").prop('value','Unlike');
+                            }
+                            else{
+                                $("#likebtn").prop('value','Like')
+                            }
+
+                        },
+
+                        // handle a non-successful response
+                        error : function(xhr,errmsg,err) {
+                            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                        }
+                    });
+            };
+
+    </script>
+    </div>
+
+{% endblock content %}
+}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class = "container">
+    <title>Index</title>
+    {% if user.is_authenticated %}
+<h1>Welcome {{ user.username }}</h1>
+<a href="/inbox/{{ user.pk }}">  Inbox </a> || <a href="/addnotice/"> Add Notice </a> || <a href="/notice/"> Notice </a> || <a href="/addblog/{{ user.pk }}"> Add Blog </a>
+
+        <table class="table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Website</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for user in userall %}
+      <tr>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.userprofile.website }}</td>
+        <td><a href="/message/{{ user.pk }}">Message</a> | <a href = "/update/{{ user.pk }}" >Edit</a> | <a href="/delete/{{ user.pk }}">Delete</a> </td>
+
+
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+{% else %}
+
+    <a href="/register/">Register Account</a>
+    <br />
+    <a href="/login/">Login</a>
+{% endif %}
+    </div>
+{% endblock content %}

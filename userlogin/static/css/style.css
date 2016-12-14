@@ -1,0 +1,42 @@
+.navbar{
+    border-radius: 0px !important;
+}
+.navbar-brand{
+    color:white; !important;
+}
+#login_form, #user_form{
+    width : 40%; !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+.forms{
+    width:50%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px darkgray;
+    padding: 40px;
+    margin-top: 2%;
+
+}
+.btn{
+    width: 40%;
+}
+
+.blogposts{
+    list-style: none;
+    border: 1px gainsboro solid;
+    box-shadow: 6px 5px 1px 0px rgb(239, 239, 239);
+    margin-bottom: 15px;
+    width: 40%;
+    margin-right: auto;
+    margin-left: auto;
+}
+.toppost{
+    margin: 10px;
+    clear: both;
+    width: 100%;
+}
+.blogppost{
+    text-align: justify;
+    padding:10px;
+}

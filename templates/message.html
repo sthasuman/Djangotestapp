@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+    <title>Message</title>
+        <div class="forms text-center">
+
+        <form class="MessageForm" role="form" id="message_form" method="post" action="">
+            {% csrf_token %}
+            <h1 class="text-center">Send Message</h1>
+
+            <b class="pull-left">Message: </b> <textarea class="form-control" type="text" id="messageText"name="message_text"> </textarea>
+            <br />
+            {% csrf_token %}
+            <input class="btn btn-primary " type="submit" value="Send" id="send"/>
+
+        </form>
+        </div>
+
+        <div class="conversations">
+            <h3>Conversations</h3>
+
+            <table id ="messagetable" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>Sender</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+
+            <tbody id="new1">
+
+             {% for msg in inbox %}
+                 <tr>
+                        <td>{{ msg.message }}</td>
+                        <td>{{ msg.sender }}</td>
+                        <td>{{ msg.time_sent|timesince }} ago</td>
+                 </tr>
+             {% endfor %}
+
+            </tbody>
+
+        </table>
+        </div>
+<script>
+                $('#message_form').on('submit', function(event){
+                   event.preventDefault();
+                    console.log("form submitted!")  // sanity check
+                    create_post();
+                });
+
+                function create_post() {
+                    console.log("create post is working!") // sanity check
+                   // console.log($('#messageText').val())
+                    $.ajax({
+                        url : window.location.href,
+                        type : "POST", // http method
+                        data : { 'message_text' : $('#messageText').val(),
+                            'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+                        },// data sent with the post request
+
+                        // handle a successful response
+                        success : function(json) {
+                            $('#messageText').val(''); // remove the value from the input
+                            console.log(json); // log the returned json to the console
+                            console.log("success"); // another sanity check
+                            console.log(json.message);
+                            $("#new1").prepend("<tr> <td>"+json.message+"</td> <td> "+json.sender+"</td> <td> "+json.time+"</td></tr>");
+                        },
+
+                        // handle a non-successful response
+                        error : function(xhr,errmsg,err) {
+                            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                        }
+                    });
+            };
+
+
+            </script>
+    </div>
+
+
+{% endblock content %}

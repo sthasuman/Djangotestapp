@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container">
+    <title>Add Notice</title>
+        <div class = "forms text-center" >
+
+        <form class="MessageForm" role = "form " id="message_form" method="post" action=""
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <h1 class="text-center">Add Notice </h1>
+            <b class = "pull-left">Notice:</b> <textarea class = "form-control" type = "text" name = "notice_text"></textarea>
+            </br>
+
+            <!-- Provide a button to click to submit the form. -->
+            <input class="btn btn-primary" type="submit" value="Publish" />
+        </form>
+        </div>
+    </div>
+
+{% endblock content %}
